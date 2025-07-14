@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自己紹介・LP自動生成ツール</title>
+    
+    <!-- OGP対応 -->
+    <meta property="og:title" content="自己紹介・LP自動生成ツール">
+    <meta property="og:description" content="あなたの魅力を最大化する自己紹介とランディングページを自動生成します">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <meta property="og:site_name" content="自己紹介・LP自動生成ツール">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="自己紹介・LP自動生成ツール">
+    <meta name="twitter:description" content="あなたの魅力を最大化する自己紹介とランディングページを自動生成します">
+    <meta name="twitter:image" content="">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>自己紹介・LP自動生成ツール</h1>
+        <p>あなたの魅力を最大化する自己紹介とランディングページを自動生成</p>
+    </header>
+
+    <main>
+        <div class="container">
+            <!-- ステップ1: 自己紹介入力 -->
+            <section class="step-section" id="step1">
+                <h2>ステップ1: 自己紹介情報入力</h2>
+                <form id="profileForm">
+                    <div class="form-group">
+                        <label for="personality">性格:</label>
+                        <textarea id="personality" name="personality" placeholder="例: 明るく積極的、人と話すのが好き、責任感が強い" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="achievements">実績:</label>
+                        <textarea id="achievements" name="achievements" placeholder="例: 売上前年比120%達成、チームリーダー経験3年、資格取得など" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="skills">得意分野:</label>
+                        <textarea id="skills" name="skills" placeholder="例: マーケティング、プレゼンテーション、データ分析、コミュニケーション" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="gender">性別:</label>
+                        <select id="gender" name="gender" required>
+                            <option value="">選択してください</option>
+                            <option value="男性">男性</option>
+                            <option value="女性">女性</option>
+                            <option value="その他">その他</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="targetGender">ターゲットの性別:</label>
+                        <select id="targetGender" name="targetGender" required>
+                            <option value="">選択してください</option>
+                            <option value="男性">男性</option>
+                            <option value="女性">女性</option>
+                            <option value="すべて">すべて</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="targetAge">ターゲットの年齢層:</label>
+                        <select id="targetAge" name="targetAge" required>
+                            <option value="">選択してください</option>
+                            <option value="20代">20代 (20-29歳)</option>
+                            <option value="30代">30代 (30-39歳)</option>
+                            <option value="40代">40代 (40-49歳)</option>
+                            <option value="50代">50代 (50-59歳)</option>
+                            <option value="60代以上">60代以上 (60歳〜)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="others">その他の情報:</label>
+                        <textarea id="others" name="others" placeholder="趣味、価値観、特別な経験など"></textarea>
+                    </div>
+                    
+                    <button type="button" onclick="generateCatchphrase()">魅力的なキャッチコピーを生成</button>
+                </form>
+            </section>
+
+            <!-- 生成されたキャッチコピー表示エリア -->
+            <section class="result-section" id="catchphraseResult" style="display: none;">
+                <h3>生成されたキャッチコピー</h3>
+                <div id="catchphraseOutput" class="output-box"></div>
+            </section>
+
+            <!-- ステップ2: 商品情報入力 -->
+            <section class="step-section" id="step2" style="display: none;">
+                <h2>ステップ2: 商品情報入力</h2>
+                <form id="productForm">
+                    <div class="form-group">
+                        <label for="productName">商品名:</label>
+                        <input type="text" id="productName" name="productName" placeholder="例: オンライン英会話コース" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productCategory">商品カテゴリー:</label>
+                        <select id="productCategory" name="productCategory" required>
+                            <option value="">選択してください</option>
+                            <option value="教育・学習">教育・学習</option>
+                            <option value="健康・美容">健康・美容</option>
+                            <option value="ビジネス・投資">ビジネス・投資</option>
+                            <option value="趣味・エンターテイメント">趣味・エンターテイメント</option>
+                            <option value="生活・家庭">生活・家庭</option>
+                            <option value="技術・IT">技術・IT</option>
+                            <option value="その他">その他</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productPrice">適正価格 (円):</label>
+                        <input type="number" id="productPrice" name="productPrice" placeholder="自動計算されます" readonly>
+                        <button type="button" onclick="editPrice()">価格を編集</button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productDescription">商品の詳細説明:</label>
+                        <textarea id="productDescription" name="productDescription" placeholder="商品の特徴、内容、提供価値などを詳しく記載"></textarea>
+                    </div>
+                    
+                    <button type="button" onclick="generateLP()">魅力的なLPを生成</button>
+                </form>
+            </section>
+
+            <!-- 生成されたLP表示エリア -->
+            <section class="result-section" id="lpResult" style="display: none;">
+                <h3>生成されたランディングページ</h3>
+                <div id="lpOutput" class="output-box"></div>
+                <button onclick="downloadLP()">LPをダウンロード</button>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 自己紹介・LP自動生成ツール</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
